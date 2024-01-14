@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 function Greeting() {
   return (
@@ -23,12 +22,14 @@ function Greeting() {
 
 export default Greeting;
 
-export function Person() {
-  const [person, setPerson] = useState({
-    firstName: 'John',
-    lastName: 'Wayne',
-    age: 100,
-  });
+const johnWayne = {
+  firstName: 'John',
+  lastName: 'Wayne',
+  age: 100,
+};
+
+export function Person({ initPerson }) {
+  const [person, setPerson] = useState(initPerson);
 
   function handleChange(e) {
     const changedName = `${e.target.id}Name`;
@@ -55,6 +56,20 @@ export function Person() {
   );
 }
 
+Person.propTypes = {
+  initPerson: PropTypes.object.isRequired,
+};
+
+Person.defaultProps = {
+  initPerson: johnWayne,
+};
+
 function Inputs({ id, name, onChange }) {
   return <input id={id} value={name} onChange={onChange} />;
 }
+
+Inputs.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
