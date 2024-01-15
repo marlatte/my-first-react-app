@@ -1,10 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { Person } from './Greeting.jsx';
-import './index.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import App from './App';
+import Profile from './Profile';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+  },
+  {
+    path: 'profile',
+    element: <Profile />,
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Person />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
