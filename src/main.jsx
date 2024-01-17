@@ -1,23 +1,46 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from './App';
-import Profile from './Profile';
+import './index.css';
+import Root, {
+  loader as rootLoader,
+  action as rootAction,
+} from './routes/Root';
 import ErrorPage from './ErrorPage';
+import Contact, { loader as contactLoader } from './routes/Contact';
+import EditContact, { action as editAction } from './routes/Edit';
+import { action as deleteAction } from './routes/Destroy';
+import Index from './routes/Index';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <Root />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: 'profile',
-    element: <Profile />,
-  },
-  {
-    path: 'profile/:name',
-    element: <Profile />,
+    loader: rootLoader,
+    action: rootAction,
+    children: [
+      {
+        index: true,
+        element: <Index />,
+      },
+      {
+        path: 'contacts/:contactId',
+        element: <Contact />,
+        loader: contactLoader,
+      },
+      {
+        path: 'contacts/:contactId/edit',
+        element: <EditContact />,
+        loader: contactLoader,
+        action: editAction,
+      },
+      {
+        path: 'contacts/:contactId/destroy',
+        action: deleteAction,
+        errorElement: <div>Oops! There was an error.</div>,
+      },
+    ],
   },
 ]);
 
