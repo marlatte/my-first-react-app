@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Form, useFetcher, useLoaderData } from 'react-router-dom';
 import { getContact, updateContact } from '../contacts';
+import { useEffect } from 'react';
 
 export async function loader({ params }) {
   const contact = await getContact(params.contactId);
@@ -22,6 +23,14 @@ export async function action({ request, params }) {
 
 export default function Contact() {
   const { contact } = useLoaderData();
+
+  useEffect(() => {
+    const fullName = `${contact.first || ''}${
+      contact.first && contact.last ? ' ' : ''
+    }${contact.last || ''}`;
+    document.title = `Contact: ${fullName || 'No Name'}`;
+  }, [contact.first, contact.last]);
+
   return (
     <div id="contact">
       <div>

@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import { Form, redirect, useLoaderData, useNavigate } from 'react-router-dom';
 import { updateContact } from '../contacts';
+import { useEffect } from 'react';
 
 export async function action({ request, params }) {
   const formData = await request.formData();
@@ -11,6 +13,13 @@ export async function action({ request, params }) {
 export default function EditContact() {
   const { contact } = useLoaderData();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fullName = `${contact.first || ''}${
+      contact.first && contact.last ? ' ' : ''
+    }${contact.last || ''}`;
+    document.title = `Edit contact: ${fullName || 'No Name'}`;
+  }, [contact.first, contact.last]);
 
   return (
     <Form method="post" id="contact-form">

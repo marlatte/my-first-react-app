@@ -33,6 +33,7 @@ export default function Root() {
 
   useEffect(() => {
     document.getElementById('q').value = q;
+    document.title = q ? `Search results for "${q}"` : 'Contacts App';
   }, [q]);
 
   return (
